@@ -1,0 +1,20 @@
+class Solution {
+    public void flatten(TreeNode root) {
+        rearrange(root);
+    } private void rearrange(TreeNode root){
+        if(root == null){
+            return;
+        } rearrange(root.left);
+          rearrange(root.right);
+        if(root.left != null && root.right == null){root.right = root.left;root.left = null;}
+        if(root.left == null || root.right == null){return;}
+        System.out.println(root.val);
+        TreeNode greatestSmall = root.left;
+        while(greatestSmall.right != null){greatestSmall = greatestSmall.right;}
+        greatestSmall.right = root.right;
+        root.right = root.left;
+        root.left = null;
+          //what im doing is getting the greatest root in the left subtree and and making that point to the head of the right subtree and make self point to head of the left substree
+          
+    }
+}
