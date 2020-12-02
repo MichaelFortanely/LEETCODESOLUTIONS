@@ -1,0 +1,71 @@
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        Map<Integer, List<Integer>> myMap = new HashMap<>();
+        for(int i = 0; i < matrix.length; i++){
+            List<Integer> rowList = new ArrayList<>();
+            for(int j = 0; j < matrix[i].length; j++){
+                rowList.add(j);
+            }
+            myMap.put(i, rowList);
+        } System.out.println(myMap.values());
+        for(int i = 0; i < matrix.length; i++){
+           
+            
+            
+           
+            
+           for(int j = 0; j < matrix[i].length; j++){
+             
+                // System.out.println(myMap.values() + "  " + matrix[i][j]);
+                if(matrix[i][j] == 0){// i am checking if an array value is 0
+                    List<Integer> tempList = myMap.get(i);//this gets current row of uncalimed indices = > only do complex stuff if index is preseen tin list in map
+                    // its row still exists
+                    if(tempList.contains(j)){//its index still exists in that row
+                      
+                        
+                    //howto make other instances propagate
+                // if i straight up remove it from the array list then t deos not woek
+                       List<Integer> theList = myMap.get(i);
+                           for(int w = 0; w < theList.size(); w++){
+                              
+                              if((matrix[i][w] != 0 )|| w == j){
+                               theList.set(w, -1);}
+                           }
+                    //this preserves zero
+                            myMap.put(i, theList);
+                    
+                
+                        for(int k = 0; k < matrix.length; k++){
+                            if(k==i){continue;}
+                            System.out.println(k);
+                            List<Integer> myList = myMap.get(k);//
+                            if(matrix[k][j] != 0){
+                                if(myList.indexOf(j) > -1){// j index has not become negative 
+                                myList.set(myList.indexOf(j), -1);//set it to negative 1
+                                    myMap.put(k, myList);
+                                    //}
+                                        }
+                                     }       
+                                }
+                    setRow(i, matrix);//these both change the array in place
+                        setColumn(j, matrix);
+                
+                 }
+                }         
+                     
+                
+            }
+            
+            
+            
+        }
+    } private void setRow(int i, int[][] matrix){
+        for(int j = 0; j < matrix[i].length; j++){
+            matrix[i][j] = 0;
+        }
+    } private void setColumn(int j, int[][] matrix){
+        for(int i = 0; i < matrix.length; i++){
+            matrix[i][j] = 0;
+        }
+    }
+}//
