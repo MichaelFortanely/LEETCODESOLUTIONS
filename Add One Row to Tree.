@@ -1,0 +1,56 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode addOneRow(TreeNode root, int v, int d) {
+        //do a BFS down to d-1 levels and then create an Integer array with each nodes child values 
+        //make all of the children of nodes at d-1 have children that are of the value at both left and right child
+        //make newchild.left point to parent og left and other newCHIld.right point to parent og right
+        if(d == 1){
+            TreeNode firstNode = new TreeNode(v);
+            firstNode.left = root;
+            return firstNode;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        TreeNode reference = root;
+        queue.add(root);
+        while(d - 2 > 0){
+            d--;
+            int size = queue.size();
+            while(size > 0){
+                size--;
+                TreeNode node = queue.poll();
+                if(node.left != null){queue.add(node.left);}
+                if(node.right != null){queue.add(node.right);}
+            }
+        } List<TreeNode> connect = new ArrayList<>(2 * queue.size());
+        Queue<TreeNode> second = new LinkedList<>();
+        while(queue.peek() != null){
+            TreeNode node = queue.poll();
+            second.add(node);
+            if(node.left == null){connect.add(null);}else{connect.add(node.left);}
+            if(node.right == null){connect.add(null);}else{connect.add(node.right);}
+        }//i have all the descendatns of the nodes in an arraylist so now i just need to go throught the second queue and make all their descendants have val v and if index is even it is left child and if index is odd it will be a right child
+        for(int i = 0; i < connect.size()/2; i++){
+            TreeNode node = second.poll();
+            TreeNode leftNode = new TreeNode(v);
+            TreeNode rightNode = new TreeNode(v);
+            node.left = leftNode;
+            node.right = rightNode;
+            leftNode.left = connect.get(2 * i);
+            rightNode.right = connect.get(1 + (2 * i));
+        } return reference;
+    }
+}
